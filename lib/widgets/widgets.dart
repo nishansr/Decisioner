@@ -16,7 +16,9 @@ class PollsContainer extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Add Polls Title'),
                     textCapitalization: TextCapitalization.sentences,
                     cursorColor: AppColors.primary,
                     maxLines: 2,
@@ -44,30 +46,33 @@ class PollsContainer extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value!.length == 0) {
-                                  return 'enter option';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onSaved: (value) {
-                                model.pollsOptions[i] = value!;
-                                model.pollsWeights[value] = 0;
-                              },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value!.length == 0) {
+                                    return 'enter option';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onSaved: (value) {
+                                  model.pollsOptions[i] = value!;
+                                  model.pollsWeights[value] = 0;
+                                },
+                              ),
                             ),
-                          ),
-                          IconButton(
-                              color: Colors.red,
-                              onPressed: () {
-                                model.removeOption();
-                              },
-                              icon: Icon(Icons.close)),
-                        ],
+                            IconButton(
+                                color: Colors.red,
+                                onPressed: () {
+                                  model.removeOption();
+                                },
+                                icon: Icon(Icons.close)),
+                          ],
+                        ),
                       ))
               ],
             ),
