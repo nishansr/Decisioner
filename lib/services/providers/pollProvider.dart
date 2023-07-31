@@ -5,10 +5,15 @@ class PollsProvider extends ChangeNotifier {
   Map pollsWeights = {};
   String pollTitle = '';
 
-  addPollOptions(List value) {
-    pollsOptions = value;
+  addPollOptions() {
+    pollsOptions.add('');
     notifyListeners();
   }
+
+  // addPollOptions(List value) {
+  //   pollsOptions = value;
+  //   notifyListeners();
+  // }
 
   addPollWeights(Map value) {
     pollsWeights = value;
@@ -20,9 +25,8 @@ class PollsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // removeOption(int index) {
-  //   pollsOptions.removeAt(index);
-  //   notifyListeners();
-  // }
-
+  removeOption() {
+    pollsOptions.removeLast();
+    notifyListeners();
+  }
 }
