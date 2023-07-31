@@ -49,7 +49,6 @@ class _AuthenticateState extends State<Authenticate> {
                         },
                         keyboardType: TextInputType.emailAddress,
                         key: ValueKey('username'),
-                        obscureText: true,
                         decoration: InputDecoration(
                             hintText: 'Enter your Username',
                             labelText: 'Username',
@@ -95,6 +94,7 @@ class _AuthenticateState extends State<Authenticate> {
                   },
                   keyboardType: TextInputType.emailAddress,
                   key: ValueKey('password'),
+                  obscureText: true,
                   decoration: InputDecoration(
                       hintText: 'Enter your Password',
                       labelText: 'Password',
@@ -103,25 +103,13 @@ class _AuthenticateState extends State<Authenticate> {
                       )),
                 ),
                 SizedBox(height: 20.0),
-                Container(
-                  height: 50.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
+                ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        isLogin
-                            ? loginUser(context, email, password)
-                            : signupUser(context, email, password, username);
-                        isLogin = !isLogin;
-                      }
+                      isLogin = !isLogin;
                     },
-                    child: Text(
-                      isLogin ? 'Login' : 'SignUp',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
+                    child: Text(isLogin
+                        ? 'Already have account? Login'
+                        : 'Already have account? Login'))
               ],
             ),
           )),
