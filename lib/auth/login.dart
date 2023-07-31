@@ -103,13 +103,38 @@ class _AuthenticateState extends State<Authenticate> {
                       )),
                 ),
                 SizedBox(height: 20.0),
-                ElevatedButton(
+                Container(
+                  height: 50.0,
+                  width: double.infinity,
+                  child: ElevatedButton(
                     onPressed: () {
-                      isLogin = !isLogin;
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        isLogin
+                            ? loginUser(context, email, password)
+                            : signupUser(context, email, password, username);
+                        isLogin = !isLogin;
+                      }
                     },
-                    child: Text(isLogin
-                        ? 'Already have account? Login'
-                        : 'Already have account? Login'))
+                    child: Text(
+                      isLogin ? 'Login' : 'SignUp',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isLogin = !isLogin;
+                        });
+                      },
+                      child: Text(
+                        isLogin ? 'Register' : 'Already have account, Login',
+                        style: TextStyle(fontSize: 20),
+                      )),
+                )
               ],
             ),
           )),

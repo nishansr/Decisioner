@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,6 +9,13 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 105, 179, 240),
       appBar: AppBar(
         title: Text('Welcome'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+              icon: Icon(Icons.logout_rounded))
+        ],
       ),
     );
   }
