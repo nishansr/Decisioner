@@ -71,22 +71,24 @@ class PollsContainer extends StatelessWidget {
                                   model.removeOption();
                                 },
                                 icon: Icon(Icons.close)),
-                          ],
+                          ], 
                         ),
                       ))
               ],
             ),
             SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      model.addPollOptions();
-                    },
-                    child: Text('Add an option')),
-              ],
-            )
+            model.pollsOptions == 5
+                ? Container()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            model.addPollOptions();
+                          },
+                          child: Text('Add an option')),
+                    ],
+                  )
           ]),
         ),
       ),

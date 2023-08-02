@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromARGB(255, 105, 179, 240),
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.green,
+        backgroundColor: AppColors.primary,
         centerTitle: true,
         title: Text('Decisioner'),
         actions: [
@@ -41,6 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: PageView(
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
         controller: pageController,
         children: [DashBoard(), AddDecision()],
       ),

@@ -5,5 +5,6 @@ saveDecision(Map pollsWeights, String title) async {
   await FirebaseFirestore.instance.collection('decisions').add({
     'pollsWeights': pollsWeights,
     'uid': currUser!.uid,
+    'usersWhoVoted': {},
   });
 }
