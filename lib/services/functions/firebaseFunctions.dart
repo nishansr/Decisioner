@@ -3,8 +3,9 @@ import 'authFunctions.dart';
 
 saveDecision(Map pollsWeights, String title) async {
   await FirebaseFirestore.instance.collection('decisions').add({
-    'pollsWeights': pollsWeights,
+    'pollWeights': pollsWeights,
     'uid': currUser!.uid,
+    'title': title,
     'usersWhoVoted': {},
   });
 }

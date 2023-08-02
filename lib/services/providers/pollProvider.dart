@@ -10,11 +10,6 @@ class PollsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // addPollOptions(List value) {
-  //   pollsOptions = value;
-  //   notifyListeners();
-  // }
-
   addPollWeights(Map value) {
     pollsWeights = value;
     notifyListeners();

@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add Decision')
         ],
-        currentIndex: selectedIndex,
+        currentIndex: selectedIndex ,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey.shade700,
         onTap: onTapped,

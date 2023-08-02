@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:decisionapp/services/providers/pollProvider.dart';
 import 'package:decisionapp/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:polls/polls.dart';
+
+import '../services/functions/authFunctions.dart';
 
 class PollsContainer extends StatelessWidget {
   const PollsContainer({super.key});
@@ -71,7 +75,7 @@ class PollsContainer extends StatelessWidget {
                                   model.removeOption();
                                 },
                                 icon: Icon(Icons.close)),
-                          ], 
+                          ],
                         ),
                       ))
               ],
@@ -90,6 +94,100 @@ class PollsContainer extends StatelessWidget {
                     ],
                   )
           ]),
+        ),
+      ),
+    );
+  }
+}
+
+class PollsWidget extends StatefulWidget {
+  final String decisionId;
+  final String decisionTitle;
+  final String creatorId;
+  final Map usersWhoVoted;
+  final Map pollWeights;
+  const PollsWidget({
+    Key? key,
+    required this.decisionId,
+    required this.decisionTitle,
+    required this.creatorId,
+    required this.pollWeights,
+    required this.usersWhoVoted,
+  }) : super(key: key);
+
+  @override
+  State<PollsWidget> createState() => _PollsWidgetState();
+}
+
+class _PollsWidgetState extends State<PollsWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Card(
+        elevation: 0.0,
+        shadowColor: Colors.grey.withOpacity(0.2),
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14.0),
+          side: BorderSide(color: Colors.grey.shade600.withOpacity(0.2)),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.decisionTitle,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            ),
+            Polls(
+              iconColor: Colors.black,
+              children: [
+                for (int i = 0;
+                    i < widget.pollWeights.keys.toList().length;
+                    i++)
+                  Polls.options(
+                      title: widget.pollWeights.keys.toList()[i],
+                      value: (widget.pollWeights.values.toList()[i]).toDouble())
+              ],
+              allowCreatorVote: true,
+              question: const Text(''),
+              outlineColor: AppColors.primary,
+              currentUser: currUser!.uid,
+              creatorID: widget.creatorId,
+              voteData: widget.usersWhoVoted,
+              leadingBackgroundColor: AppColors.primary.withOpacity(0.6),
+              userChoice: widget.pollWeights.keys
+                  .toList()
+                  .indexOf(widget.usersWhoVoted[widget.decisionId]),
+              onVoteBackgroundColor: AppColors.primary.withOpacity(0.5),
+              backgroundColor: Colors.transparent,
+              onVote: (choice) async {
+                Map userWhoVoted = widget.usersWhoVoted;
+                Map thisPollweights = widget.pollWeights;
+
+                var selectedOption =
+                    widget.pollWeights.keys.toList()[choice - 1];
+                setState(() {
+                  thisPollweights[selectedOption] =
+                      thisPollweights[selectedOption] + 1;
+                  userWhoVoted[currUser!.uid] =
+                      widget.pollWeights.keys.toList()[choice - 1];
+                });
+                await FirebaseFirestore.instance
+                    .collection('decisions')
+                    .doc(widget.decisionId)
+                    .update({
+                  'pollWeights': thisPollweights,
+                  'usersWhoVoted': userWhoVoted
+                });
+              },
+            ),
+          ],
         ),
       ),
     );
